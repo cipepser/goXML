@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"os"
 )
 
 type ChiChidleyRoot314159 struct {
@@ -32,25 +33,41 @@ type ChiPerson struct {
 }
 
 func main() {
-	x := []byte(`<people>
+	f, err := os.Open("./test.xml")
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
 
-    <person>
-      <name>bill</name>
-      <age>37</age>
-      <married>true</married>
-    </person>
+	// r := bufio.NewReader(f)
+	// r.Read()
 
-    <person>
-      <name>sarah</name>
-      <age>24</age>
-      <married>false</married>
-    </person>
-
-  </people>`)
-
+	// x := []byte(`<people>
+	//
+	//   <person>
+	//     <name>bill</name>
+	//     <age>37</age>
+	//     <married>true</married>
+	//   </person>
+	//
+	//   <person>
+	//     <name>sarah</name>
+	//     <age>24</age>
+	//     <married>false</married>
+	//   </person>
+	//
+	// </people>`)
+	//
 	p := &ChiPeople{}
-	xml.Unmarshal(x, p)
+	// xml.Unmarshal(x, p)
+	//
 
+	// sdk.DecodeBody(resp, out)
+
+	dec := xml.NewDecoder(f)
+	// dec := json.NewDecoder(resp.Body)
+	dec.Decode(p)
+	// return dec.Decode(out)
 	fmt.Println(p.ChiPerson[0].ChiAge)
 
 }
